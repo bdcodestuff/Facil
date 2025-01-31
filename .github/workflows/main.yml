@@ -51,7 +51,7 @@ jobs:
       run: dotnet pack src/Facil.Package -c Release
 
     - name: Upload NuGet package to GitHub
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: nugetPackage
         path: bin/Release/ 
