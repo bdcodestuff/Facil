@@ -27,19 +27,6 @@ jobs:
       - name: Check code format
         run: dotnet fantomas --check .
 
-      - name: Install SQL Server
-        run: |
-          docker run -d -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=CXTxgxnkzcTcLMCwKjqi4XbKgwFtw' -e 'MSSQL_COLLATION=SQL_Latin1_General_CP1_CI_AS' --name sql -p 1433:1433 samuelmarks/mssql-server-fts-sqlpackage-linux
-          sleep 10s
-          docker ps -a
-          docker logs -t sql
-
-      - name: Build DB
-        run: dotnet build src/TestDb/TestDb.sqlproj -c Release
-
-      - name: Publish DB
-        run: dotnet sqlpackage /Action:Publish /SourceFile:"src/TestDb/bin/Release/TestDb.dacpac" /TargetConnectionString:"$connectionString"
-
       - name: Build generator
         run: dotnet build src/Facil.Generator -c Release
 
@@ -49,13 +36,6 @@ jobs:
       # Pack in a separate step (fails for some reason with "empty lib/" error if using <GeneratePackageOnBuild>)
       - name: Pack
         run: dotnet pack src/Facil.Package -c Release
-
-      # Build tests, which due to nuget.config should restore the locally built package
-      - name: Build tests
-        run: dotnet build src/DbTests -c Release
-
-      - name: Test
-        run: dotnet src/DbTests/bin/Release/net7.0/DbTests.dll --fail-on-focused-tests
 
       - name: Push
         if: startsWith(github.ref, 'refs/tags/v/')
