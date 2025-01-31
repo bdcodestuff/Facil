@@ -1419,8 +1419,8 @@ let renderDocument (cfg: RuleSet) hash (everything: Everything) =
         ""
         ""
         yield! renderTableDtos cfg everything.TableDtos
-        "#if !FABLE_COMPILER"
         yield! renderTableTypes cfg everything.TableTypes
+        "#if !FABLE_COMPILER"
         yield! renderProcs cfg everything.TableDtos everything.StoredProcedures
         yield! renderScripts cfg everything.TableDtos everything.Scripts
         "#endif"

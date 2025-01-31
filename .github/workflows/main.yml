@@ -37,15 +37,15 @@ jobs:
     - name: Upload NuGet package to GitHub
       uses: actions/upload-artifact@v4
       with:
-        name: Facil.2.14.1.nupkg
+        name: Facil.2.14.2.nupkg
         path: /home/runner/work/Facil/Facil/nupkg/
         
     #Push NuGet package to GitHub packages
     - name: Download nuget package artifact
       uses: actions/download-artifact@v4.1.8
       with:
-        name: Facil.2.14.1.nupkg
+        name: Facil.2.14.2.nupkg
     - name: Prep packages
       run: dotnet nuget add source --username yourusername --password ${{ secrets.NUGET_PACKAGE_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/bdcodestuff/index.json"
     - name: Push package to GitHub packages 
-      run: dotnet nuget push Facil.2.14.1.nupkg --api-key ${{ secrets.NUGET_PACKAGE_TOKEN }}  --source "github"
+      run: dotnet nuget push Facil.2.14.2.nupkg --api-key ${{ secrets.NUGET_PACKAGE_TOKEN }}  --source "github"
