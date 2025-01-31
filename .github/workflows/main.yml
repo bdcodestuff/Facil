@@ -32,13 +32,13 @@ jobs:
 
     # Pack in a separate step (fails for some reason with "empty lib/" error if using <GeneratePackageOnBuild>)
     - name: Pack
-      run: dotnet pack src/Facil.Package -c Release && ls -l
+      run: dotnet pack src/Facil.Package -c Release
 
     - name: Upload NuGet package to GitHub
       uses: actions/upload-artifact@v4
       with:
         name: nugetPackage
-        path: ./bin/Release/ 
+        path: /home/runner/work/Facil/Facil/nupkg/
         
     #Push NuGet package to GitHub packages
     - name: Download nuget package artifact
