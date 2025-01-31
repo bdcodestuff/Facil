@@ -24,6 +24,9 @@ let private renderTableDto (cfg: RuleSet) (dto: TableDto) =
                     ]
                 "}"
 
+                ""
+                $"static member decoder = Decode.Auto.generateDecoder<``%s{dto.Name}``>()"
+
                 match dto.PrimaryKeyColumns with
                 | [] -> ()
                 | first :: rest ->
@@ -1400,6 +1403,7 @@ let renderDocument (cfg: RuleSet) hash (everything: Everything) =
         "open Microsoft.Data.SqlClient.Server"
         "open Facil.Runtime.CSharp"
         "open Facil.Runtime.GeneratedCodeUtils"
+        "open Thoth.Json"
         ""
         ""
         match cfg.Prelude with
@@ -1415,8 +1419,10 @@ let renderDocument (cfg: RuleSet) hash (everything: Everything) =
         ""
         ""
         yield! renderTableDtos cfg everything.TableDtos
+        "#if !FABLE_COMPILER"
         yield! renderTableTypes cfg everything.TableTypes
         yield! renderProcs cfg everything.TableDtos everything.StoredProcedures
         yield! renderScripts cfg everything.TableDtos everything.Scripts
+        "#endif"
     ]
     |> List.map (fun s -> if String.IsNullOrWhiteSpace s then "" else s)
