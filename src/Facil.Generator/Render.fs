@@ -1404,6 +1404,7 @@ let renderDocument (cfg: RuleSet) hash (everything: Everything) =
         "open Facil.Runtime.CSharp"
         "open Facil.Runtime.GeneratedCodeUtils"
         "open Thoth.Json"
+        "open ScriptTypes"
         ""
         ""
         match cfg.Prelude with
